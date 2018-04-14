@@ -2,6 +2,7 @@ package baseRunner;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -9,6 +10,7 @@ import org.testng.annotations.BeforeTest;
 
 
 import common.AppConfig;
+import common.ExcelConfig;
 import common.ExtentReport;
 import common.ReadProperties;
 import common.ResultClass;
@@ -67,6 +69,17 @@ public class TestNGBaseRunner {
 	{
 		ResultClass.callSoftAssert();
 		driver.navigate().to(config.getApplicationURL());
+	}
+	
+	@AfterMethod
+	public void afterMethod() throws Exception
+	{
+		// update test status in Excel 
+		ExcelConfig.updateStatusInExcel();
+		// clear list 
+		ResultClass.excelResultStaus.clear();
+		//Clear Hashmap
+		ExcelConfig.hmap.clear();
 	}
 	
 	@AfterTest
